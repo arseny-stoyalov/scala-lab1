@@ -18,7 +18,7 @@ object PatternMatching {
 
   case object Paper extends Hand
 
-  case object Scissors extends Hand
+  case object Scissor extends Hand
 
 
   sealed trait Result
@@ -105,17 +105,17 @@ object PatternMatching {
       case Rock => b match {
         case Rock => Draw
         case Paper => Lose
-        case Scissors => Win
+        case Scissor => Win
       }
       case Paper => b match {
         case Rock => Win
         case Paper => Draw
-        case Scissors => Lose
+        case Scissor => Lose
       }
-      case Scissors => b match {
+      case Scissor => b match {
         case Rock => Lose
         case Paper => Win
-        case Scissors => Draw
+        case Scissor => Draw
       }
     }
 
