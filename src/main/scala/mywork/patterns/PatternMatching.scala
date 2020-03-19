@@ -1,4 +1,4 @@
-package tasks
+package mywork.patterns
 
 /** Напишите решение в виде функции.
  *
@@ -18,7 +18,7 @@ object PatternMatching {
 
   case object Paper extends Hand
 
-  case object Scissor extends Hand
+  case object Scissors extends Hand
 
 
   sealed trait Result
@@ -59,20 +59,35 @@ object PatternMatching {
    *     3 => "it is three"
    *     иначе => "what's that"
    */
+  def intToString(a: Int): String =
+    a match {
+      case 1 => "it is one"
+      case 2 => "it is two"
+      case 3 => "it is three"
+      case _ => "what's that?"
+    }
 
   // примените вашу функцию из пункта (a) здесь, не изменяя сигнатуру
-  def testIntToString(value: Int): String = value.toString
+  def testIntToString(value: Int): String = intToString(value)
 
   /* b) Напишите функцию которая возвращает true если переменная `value` принимает значение:
    *     "max" или "Max"
    *     "moritz" или "Moritz"
    */
+  def isMaxOrMoritz(value: String): Boolean = {
+    if (value.head.toLower != 'm') return false
+    value.tail match {
+      case "ax" => true
+      case "oritz" => true
+      case _ => false
+    }
+  }
 
   // примените функции из пункта (b) здесь, не изменяя сигнатуру
-  def testIsMaxAndMoritz(value: String): Boolean = false
+  def testIsMaxAndMoritz(value: String): Boolean = isMaxOrMoritz(value)
 
-  // c) Напишите функцию проверки является ли `value` четным 
-
+  // c) Напишите функцию проверки является ли `value` четным
+  def isEven(value: Int): Boolean = if (value % 2 == 0) true else false
 
   // примените функции из пункта (c) здесь, не изменяя сигнатуру
   def testIsEven(value: Int): Boolean = false
@@ -84,25 +99,54 @@ object PatternMatching {
    *     3. бумага побеждает камень
    *    Выиграет ли игрок `a`?
    */
+  def rPS(a: Hand, b: Hand): Result =
 
+    a match {
+      case Rock => b match {
+        case Rock => Draw
+        case Paper => Lose
+        case Scissors => Win
+      }
+      case Paper => b match {
+        case Rock => Win
+        case Paper => Draw
+        case Scissors => Lose
+      }
+      case Scissors => b match {
+        case Rock => Lose
+        case Paper => Win
+        case Scissors => Draw
+      }
+    }
 
   // примените вашу функцию из пункта (d) здесь, не изменяя сигнатуру
-  def testWinsA(a: Hand, b: Hand): Result = Draw
-
+  def testWinsA(a: Hand, b: Hand): Result = rPS(a, b)
 
   // Примечание: используйте определение Animals
 
   // e) Верните вес (weight: Int) объекта Mammal, иначе верните -1.
-
+  def extractMammalWeight(animal: Animal): Int = {
+    animal match {
+      case mammal: Mammal => mammal.weight
+      case _ => -1
+    }
+  }
 
   // примените функцию из пункта (e) здесь, не изменяйте сигнатуру
-  def testExtractMammalWeight(animal: Animal): Int = 0
+  def testExtractMammalWeight(animal: Animal): Int = extractMammalWeight(animal)
 
 
-  // f) Измените поле еда объектов классов Fishes и Birds на Plants, класс Mammels оставьте неизмененным.
+  // f) Измените поле еда объектов классов Fishes и Birds на Plants, класс Mammals оставьте неизмененным.
+  def updateFood(animal: Animal): Animal = {
 
+    animal match {
+      case fish: Fish => Fish(fish.name, Plants)
+      case bird: Bird => Bird(bird.name, Plants)
+      case _ => animal
+    }
+  }
 
   // примените функцию из пункта (f) здесь, не изменяйте сигнатуру
-  def testUpdateFood(animal: Animal): Animal = animal
+  def testUpdateFood(animal: Animal): Animal = updateFood(animal)
 
 }
